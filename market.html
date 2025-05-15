@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmers Market Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --green1: #4e944f;
+      --green2: #6cbb3c;
+      --brown1: #a47149;
+      --brown2: #e6ccb2;
+      --white: #fff;
+      --shadow: rgba(0,0,0,0.05) 0 4px 16px;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--green2) 70%, var(--brown2) 100%);
+      margin: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .header h1 {
+      font-size: 1.4rem;
+      color: var(--green1);
+      margin: 0;
+      font-weight: bold;
+    }
+    .lang-switch {
+      cursor: pointer;
+      background: var(--green1);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      transition: background 0.2s;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .tab {
+      flex: 1;
+      padding: 0.7rem 0;
+      text-align: center;
+      background: var(--brown2);
+      color: var(--brown1);
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s, color 0.2s;
+      border: none;
+      outline: none;
+    }
+    .tab.active {
+      background: var(--green1);
+      color: var(--white);
+    }
+    .form-section {
+      display: none;
+      animation: fadeIn 0.4s;
+    }
+    .form-section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    label {
+      display: block;
+      margin: 1rem 0 0.3rem;
+      color: var(--green1);
+      font-weight: 500;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid var(--brown2);
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      background: #f8f8f8;
+    }
+    button {
+      background: var(--green2);
+      color: var(--white);
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 0.7rem;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: var(--green1);
+    }
+    .result, .market-prices {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--brown2);
+      border-radius: 8px;
+      color: var(--brown1);
+      font-size: 1rem;
+    }
+    .market-prices {
+      margin-bottom: 1rem;
+    }
+    .product-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0 0;
+    }
+    .product-list li {
+      padding: 0.5rem 0.7rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .product-list li:last-child {
+      border-bottom: none;
+    }
+    .upload-label {
+      display: inline-block;
+      background: var(--brown1);
+      color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.98rem;
+    }
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 id="app-title">Farmers Market</h1>
+      <button class="lang-switch" id="langBtn" title="Switch Language">
+        <span id="langIcon">🌐</span>
+      </button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="sellerTab">Sell</button>
+      <button class="tab" id="buyerTab">Buy</button>
+    </div>
+
+    <!-- Seller Interface -->
+    <div class="form-section active" id="sellerSection">
+      <form id="sellForm">
+        <label id="prodLabel">Product Name</label>
+        <input type="text" id="sellProduct" placeholder="e.g., Tomato / ಟೊಮೇಟೊ" required>
+
+        <label id="qtyLabel">Quantity (kg)</label>
+        <input type="number" id="sellQty" min="1" placeholder="e.g., 100" required>
+
+        <label id="priceLabel">Expected Price (₹/kg)</label>
+        <input type="number" id="sellPrice" min="1" placeholder="e.g., 15" required>
+
+        <label class="upload-label" for="sellImage" id="uploadLabel">Upload Product Image</label>
+        <input type="file" id="sellImage" accept="image/*">
+
+        <button type="submit" id="postBtn">Post for Sale</button>
+      </form>
+      <div class="result" id="sellResult" style="display:none;"></div>
+    </div>
+
+    <!-- Buyer Interface -->
+    <div class="form-section" id="buyerSection">
+      <div class="market-prices" id="marketPrices"></div>
+      <form id="buyForm">
+        <label id="searchLabel">Search Product</label>
+        <input type="text" id="buyProduct" placeholder="e.g., Onion / ಈರುಳ್ಳಿ" required>
+        <button type="submit" id="searchBtn">Search</button>
+      </form>
+      <ul class="product-list" id="productList"></ul>
+    </div>
+  </div>
+  <script>
+    // Language data
+    const langData = {
+      en: {
+        appTitle: "Farmers Market",
+        sellerTab: "Sell",
+        buyerTab: "Buy",
+        prodLabel: "Product Name",
+        qtyLabel: "Quantity (kg)",
+        priceLabel: "Expected Price (₹/kg)",
+        uploadLabel: "Upload Product Image",
+        postBtn: "Post for Sale",
+        searchLabel: "Search Product",
+        searchBtn: "Search",
+        marketPrices: "Current Market Prices (per kg):",
+        sellSuccess: "Product posted successfully!",
+        sellFail: "Please fill all fields.",
+        noResults: "No products found.",
+        langIcon: "🌐"
+      },
+      kn: {
+        appTitle: "ರೈತ ಮಾರುಕಟ್ಟೆ",
+        sellerTab: "ಮಾರಾಟ",
+        buyerTab: "ಖರೀದಿ",
+        prodLabel: "ಉತ್ಪನ್ನದ ಹೆಸರು",
+        qtyLabel: "ಪ್ರಮಾಣ (ಕೆಜಿ)",
+        priceLabel: "ಅಪೇಕ್ಷಿತ ಬೆಲೆ (₹/ಕೆಜಿ)",
+        uploadLabel: "ಉತ್ಪನ್ನದ ಚಿತ್ರ ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+        postBtn: "ಮಾರಾಟಕ್ಕೆ ಹಾಕಿ",
+        searchLabel: "ಉತ್ಪನ್ನ ಹುಡುಕಿ",
+        searchBtn: "ಹುಡುಕಿ",
+        marketPrices: "ಪ್ರಸ್ತುತ ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು (ಪ್ರತಿ ಕೆಜಿ):",
+        sellSuccess: "ಉತ್ಪನ್ನವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗಿದೆ!",
+        sellFail: "ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ತುಂಬಿ.",
+        noResults: "ಉತ್ಪನ್ನಗಳು ಲಭ್ಯವಿಲ್ಲ.",
+        langIcon: "🌐"
+      }
+    };
+
+    let currentLang = 'en';
+
+    // Example market prices (could be fetched from an API)
+    const prices = [
+      { name_en: "Tomato", name_kn: "ಟೊಮೇಟೊ", price: 15 },
+      { name_en: "Onion", name_kn: "ಈರುಳ್ಳಿ", price: 20 },
+      { name_en: "Potato", name_kn: "ಆಲೂಗಡ್ಡೆ", price: 18 },
+      { name_en: "Chilli", name_kn: "ಮೆಣಸು", price: 60 }
+    ];
+
+    // In-memory product list (simulate database)
+    let products = [];
+
+    // DOM Elements
+    const sellerTab = document.getElementById('sellerTab');
+    const buyerTab = document.getElementById('buyerTab');
+    const sellerSection = document.getElementById('sellerSection');
+    const buyerSection = document.getElementById('buyerSection');
+    const langBtn = document.getElementById('langBtn');
+    const langIcon = document.getElementById('langIcon');
+
+    // Language switcher
+    function updateLang() {
+      const t = langData[currentLang];
+      document.getElementById('app-title').textContent = t.appTitle;
+      sellerTab.textContent = t.sellerTab;
+      buyerTab.textContent = t.buyerTab;
+      document.getElementById('prodLabel').textContent = t.prodLabel;
+      document.getElementById('qtyLabel').textContent = t.qtyLabel;
+      document.getElementById('priceLabel').textContent = t.priceLabel;
+      document.getElementById('uploadLabel').textContent = t.uploadLabel;
+      document.getElementById('postBtn').textContent = t.postBtn;
+      document.getElementById('searchLabel').textContent = t.searchLabel;
+      document.getElementById('searchBtn').textContent = t.searchBtn;
+      langIcon.textContent = t.langIcon;
+      renderMarketPrices();
+      renderProductList([]); // Clear product list on language switch
+      document.getElementById('sellResult').style.display = 'none';
+    }
+
+    langBtn.onclick = () => {
+      currentLang = currentLang === 'en' ? 'kn' : 'en';
+      updateLang();
+    };
+
+    // Tab switching
+    sellerTab.onclick = () => {
+      sellerTab.classList.add('active');
+      buyerTab.classList.remove('active');
+      sellerSection.classList.add('active');
+      buyerSection.classList.remove('active');
+    };
+    buyerTab.onclick = () => {
+      buyerTab.classList.add('active');
+      sellerTab.classList.remove('active');
+      buyerSection.classList.add('active');
+      sellerSection.classList.remove('active');
+      renderMarketPrices();
+    };
+
+    // Render market prices
+    function renderMarketPrices() {
+      const t = langData[currentLang];
+      let html = `<b>${t.marketPrices}</b><ul>`;
+      prices.forEach(p => {
+        html += `<li>${currentLang === 'en' ? p.name_en : p.name_kn}: ₹${p.price}</li>`;
+      });
+      html += '</ul>';
+      document.getElementById('marketPrices').innerHTML = html;
+    }
+
+    // Handle seller form submission
+    document.getElementById('sellForm').onsubmit = function(e) {
+      e.preventDefault();
+      const t = langData[currentLang];
+      const name = document.getElementById('sellProduct').value.trim();
+      const qty = document.getElementById('sellQty').value.trim();
+      const price = document.getElementById('sellPrice').value.trim();
+      const imgInput = document.getElementById('sellImage');
+      if (!name || !qty || !price) {
+        showSellResult(t.sellFail, false);
+        return;
+      }
+      let imgURL = '';
+      if (imgInput.files && imgInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imgURL = e.target.result;
+          addProduct({ name, qty, price, imgURL });
+        };
+        reader.readAsDataURL(imgInput.files[0]);
+      } else {
+        addProduct({ name, qty, price, imgURL: '' });
+      }
+    };
+
+    function addProduct(product) {
+      products.push(product);
+      showSellResult(langData[currentLang].sellSuccess, true);
+      document.getElementById('sellForm').reset();
+    }
+
+    function showSellResult(msg, success) {
+      const el = document.getElementById('sellResult');
+      el.textContent = msg;
+      el.style.display = 'block';
+      el.style.color = success ? '#2e7d32' : '#b71c1c';
+    }
+
+    // Handle buyer form submission
+    document.getElementById('buyForm').onsubmit = function(e) {
+      e.preventDefault();
+      const query = document.getElementById('buyProduct').value.trim().toLowerCase();
+      if (!query) return;
+      const results = products.filter(p =>
+        p.name.toLowerCase().includes(query)
+      );
+      renderProductList(results);
+    };
+
+    // Render product list for buyer
+    function renderProductList(list) {
+      const t = langData[currentLang];
+      const el = document.getElementById('productList');
+      el.innerHTML = '';
+      if (!list || list.length === 0) {
+        el.innerHTML = `<li>${t.noResults}</li>`;
+        return;
+      }
+      list.forEach(p => {
+        el.innerHTML += `<li>
+          <b>${p.name}</b> - ${t.qtyLabel}: ${p.qty} | ${t.priceLabel}: ₹${p.price}
+          ${p.imgURL ? `<br><img src="${p.imgURL}" alt="Product" style="max-width:80px;max-height:50px;border-radius:4px;margin-top:4px;">` : ''}
+        </li>`;
+      });
+    }
+
+    // Initial render
+    updateLang();
+    renderMarketPrices();
+  </script>
+</body>
+</html>

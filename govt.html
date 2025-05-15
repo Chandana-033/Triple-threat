@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrushiSathi - Farmer Government Schemes Portal</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #d4edda;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #ffc107;
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #ffca28;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero-btn {
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+        }
+        
+        .hero-btn:hover {
+            background-color: #388e3c;
+            color: white;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid #2e7d32;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* Schemes Section */
+        .schemes {
+            padding: 80px 0;
+            background-color: #f5f5f5;
+        }
+        
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .scheme-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .scheme-img {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .scheme-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .scheme-card:hover .scheme-img img {
+            transform: scale(1.1);
+        }
+        
+        .scheme-content {
+            padding: 20px;
+        }
+        
+        .scheme-content h3 {
+            margin-bottom: 10px;
+            color: #2e7d32;
+        }
+        
+        .scheme-content p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .scheme-link {
+            display: inline-block;
+            color: #2e7d32;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .scheme-link:hover {
+            color: #1b5e20;
+            text-decoration: underline;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            font-size: 5rem;
+            color: #2e7d32;
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            line-height: 1;
+        }
+        
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1b5e20;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #d4edda;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #d4edda;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1200px-Flag_of_India.svg.png" alt="Government Logo">
+                <div class="logo-text">
+                    <h1>KrushiSathi</h1>
+                    <p>Empowering Farmers, Nourishing Nation</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Access Government Schemes for Farmers</h2>
+            <p>KrushiSathi is your one-stop portal to discover, understand, and apply for various government schemes designed to support farmers and boost agricultural productivity.</p>
+            <a href="#schemes" class="btn hero-btn">Explore Schemes</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How KrushiSathi Helps Farmers</h2>
+                <p>We bridge the gap between farmers and government agricultural schemes with easy access and simplified processes.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Scheme Discovery</h3>
+                    <p>Find all government agricultural schemes in one place with clear eligibility criteria and benefits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Easy Application</h3>
+                    <p>Simplified application process with step-by-step guidance and document requirements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support in Local Language</h3>
+                    <p>Get assistance in your preferred regional language for better understanding.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schemes Section -->
+    <section class="schemes" id="schemes">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Government Schemes</h2>
+                <p>Explore various government initiatives designed to support farmers and boost agricultural productivity.</p>
+            </div>
+            <div class="schemes-grid">
+                <div class="scheme-card">
+                    <div class="scheme-img">
+                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="PM Kisan Samman Nidhi">
+                    </div>
+                    <div class="scheme-content">
+                        <h3>PM Kisan Samman Nidhi</h3>
+                        <p>Income support of ₹6,000 per year in three equal installments to all land holding farmer families.</p>
+                        <a href="#" class="scheme-link">Learn More →</a>
+                    </div>
+                </div>
+                <div class="scheme-card">
+                    <div class="scheme-img">
+                        <img src="soil.png" alt="Soil Health Card">
+                    </div>
+                    <div class="scheme-content">
+                        <h3>Soil Health Card Scheme</h3>
+                        <p>Provides farmers with soil health cards containing crop-wise recommendations of nutrients/fertilizers.</p>
+                        <a href="#" class="scheme-link">Learn More →</a>
+                    </div>
+                </div>
+                <div class="scheme-card">
+                    <div class="scheme-img">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pradhan Mantri Fasal Bima Yojana">
+                    </div>
+                    <div class="scheme-content">
+                        <h3>PM Fasal Bima Yojana</h3>
+                        <p>Crop insurance scheme to provide financial support to farmers suffering crop loss/damage.</p>
+                        <a href="#" class="scheme-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Farmer Success Stories</h2>
+                <p>Hear from farmers who have benefited from government schemes through KrushiSathi.</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>Thanks to KrushiSathi, I discovered the PM Kisan Samman Nidhi scheme and received my first installment within a month of applying. The process was so simple!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ramesh Patel">
+                        <div class="author-info">
+                            <h4>Ramesh Patel</h4>
+                            <p>Small Farmer, Maharashtra</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>The Soil Health Card scheme recommended the right fertilizers for my crops. My yield increased by 20% in just one season with the same input cost.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sunita Devi">
+                        <div class="author-info">
+                            <h4>Sunita Devi</h4>
+                            <p>Organic Farmer, Bihar</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>When my crops were damaged due to unexpected rains, the PM Fasal Bima Yojana helped me recover my losses. KrushiSathi made the claim process hassle-free.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Vijay Kumar">
+                        <div class="author-info">
+                            <h4>Vijay Kumar</h4>
+                            <p>Paddy Farmer, Punjab</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="apply">
+        <div class="container">
+            <h2>Ready to Apply for Government Schemes?</h2>
+            <p>Join thousands of farmers who have already benefited from various government agricultural schemes through KrushiSathi.</p>
+            <a href="#" class="btn hero-btn">Apply Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>KrushiSathi</h3>
+                    <p>Empowering farmers by connecting them with government agricultural schemes for a prosperous India.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#schemes">Schemes</a></li>
+                        <li><a href="#benefits">Benefits</a></li>
+                        <li><a href="#apply">Apply Now</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Important Schemes</h3>
+                    <ul>
+                        <li><a href="#">PM Kisan Samman Nidhi</a></li>
+                        <li><a href="#">Soil Health Card</a></li>
+                        <li><a href="#">PM Fasal Bima Yojana</a></li>
+                        <li><a href="#">Kisan Credit Card</a></li>
+                        <li><a href="#">National Mission on Agriculture</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 1800-123-4567</li>
+                        <li><i class="fas fa-envelope"></i> help@krushisathi.gov.in</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ministry of Agriculture, New Delhi</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 KrushiSathi - Government of India Initiative. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farm Equipment Hub | ಕೃಷಿ ಉಪಕರಣ ಕೇಂದ್ರ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary-green: #388e3c;
+      --secondary-green: #66bb6a;
+      --earth-brown: #8d6e63;
+      --light-brown: #d7ccc8;
+      --accent: #fffde7;
+      --shadow: rgba(60,40,20,0.15);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', 'Noto Sans Kannada', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--light-brown) 0%, var(--accent) 100%);
+      color: var(--primary-green);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Animated SVG background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 180px;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    header, nav, main, .footer {
+      position: relative;
+      z-index: 1;
+    }
+    header {
+      background: linear-gradient(90deg, var(--primary-green) 70%, var(--earth-brown) 100%);
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      box-shadow: 0 2px 8px var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      letter-spacing: 2px;
+      font-weight: bold;
+      animation: slideInDown 1s cubic-bezier(.77,0,.18,1) 0.1s both;
+    }
+    header p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0 0 0;
+      animation: fadeIn 1.5s ease 0.5s both;
+    }
+    @keyframes slideInDown {
+      from { transform: translateY(-60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      background: var(--secondary-green);
+      padding: 0.5rem 0;
+      font-size: 1rem;
+      box-shadow: 0 1px 6px var(--shadow);
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+    }
+    nav a:hover, nav a.active {
+      background: var(--earth-brown);
+      color: #fffde7;
+    }
+    .lang-switch {
+      position: absolute;
+      top: 1.3rem;
+      right: 1.2rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 2;
+    }
+    .lang-btn {
+      background: var(--secondary-green);
+      color: white;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--earth-brown);
+    }
+    .lang-flag {
+      font-size: 1.2em;
+      margin-right: 0.1em;
+      vertical-align: middle;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px var(--shadow);
+      padding: 2rem 1.5rem;
+      animation: fadeIn 1.5s;
+      position: relative;
+      z-index: 1;
+    }
+    section {
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      color: var(--primary-green);
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      border-left: 5px solid var(--secondary-green);
+      padding-left: 0.7rem;
+      letter-spacing: 1px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background: linear-gradient(120deg, var(--accent) 60%, var(--light-brown) 100%);
+      border: 1px solid var(--secondary-green);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px var(--shadow);
+      flex: 1 1 200px;
+      min-width: 220px;
+      max-width: 260px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s;
+      cursor: pointer;
+      animation: floatIn 1s cubic-bezier(.77,0,.18,1);
+    }
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    @keyframes floatIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--primary-green);
+      animation: popIn 1.2s cubic-bezier(.77,0,.18,1);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      color: var(--earth-brown);
+    }
+    .card-desc {
+      font-size: 0.97rem;
+      color: #444;
+    }
+    form {
+      background: var(--accent);
+      border-radius: 8px;
+      padding: 1.2rem 1rem;
+      box-shadow: 0 1px 4px var(--shadow);
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      animation: fadeIn 1.5s;
+    }
+    label {
+      font-weight: 500;
+      color: var(--primary-green);
+      margin-bottom: 0.2rem;
+    }
+    input, select, textarea {
+      font-size: 1rem;
+      padding: 0.5rem;
+      border: 1px solid var(--secondary-green);
+      border-radius: 5px;
+      background: #f7f5ef;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border: 1.5px solid var(--primary-green);
+    }
+    button[type="submit"] {
+      background: var(--primary-green);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: var(--earth-brown);
+    }
+    .footer {
+      background: var(--secondary-green);
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 1rem;
+      margin-top: 2rem;
+      letter-spacing: 1px;
+    }
+    /* Responsive */
+    @media (max-width: 700px) {
+      main { padding: 1rem 0.3rem; }
+      .actions { flex-direction: column; gap: 1rem; }
+      .card { max-width: 100%; }
+      .animated-bg { height: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated SVG background (UI/UX animation) -->
+  <div class="animated-bg">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none" width="100%" height="100%">
+      <path fill="#66bb6a" fill-opacity="0.4">
+        <animate attributeName="d" dur="8s" repeatCount="indefinite"
+          values="
+            M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z;
+            M0,180 C480,100 960,240 1440,180 L1440,320 L0,320 Z;
+            M0,160 C480,240 960,80 1440,160 L1440,320 L0,320 Z
+          "/>
+      </path>
+    </svg>
+  </div>
+  <header>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="enBtn">
+        <span class="lang-flag" aria-label="English" title="English">🇬🇧</span> English
+      </button>
+      <button class="lang-btn" id="knBtn">
+        <span class="lang-flag" aria-label="Kannada" title="Kannada">🇮🇳</span> ಕನ್ನಡ
+      </button>
+    </div>
+    <h1 id="siteTitle">Farm Equipment Hub</h1>
+    <p id="siteDesc">Rent, Buy, Sell or Share Farm Equipment for Ploughing and Soil Harvesting</p>
+  </header>
+  <nav>
+    <a href="#home" class="active" id="navHome">Home</a>
+    <a href="#equipment" id="navEquip">Equipment</a>
+    <a href="#form" id="navForm">Post Ad</a>
+    <a href="#contact" id="navContact">Contact</a>
+  </nav>
+  <main>
+    <section id="homeSection">
+      <h2 id="welcomeTitle">Welcome to the Farmer's Equipment Hub</h2>
+      <p id="welcomeDesc">
+        Easily <b>rent</b>, <b>buy</b>, <b>sell</b>, or <b>share</b> essential farming equipment. Empower your harvest with the right tools, connect with local farmers, and make farming more efficient and affordable.
+      </p>
+      <div class="actions">
+        <div class="card" style="animation-delay:0.1s">
+          <div class="card-icon">🚜</div>
+          <div class="card-title" id="rentTitle">Rent Equipment</div>
+          <div class="card-desc" id="rentDesc">
+            Find and rent tractors, ploughs, and harvesters for your fieldwork.
+          </div>
+        </div>
+        <div class="card" style="animation-delay:0.2s">
+          <div class="card-icon">💰</div>
+          <div class="card-title" id="sellTitle">Sell Equipment</div>
+          <div class="card-desc" id="sellDesc">
+            List your used farm equipment and reach buyers quickly.
+          </div>
+        </div>
+        <div class="card" style="animation-delay:0.3s">
+          <div class="card-icon">🛒</div>
+          <div class="card-title" id="buyTitle">Buy Equipment</div>
+          <div class="card-desc" id="buyDesc">
+            Browse available equipment and connect with sellers near you.
+          </div>
+        </div>
+        <div class="card" style="animation-delay:0.4s">
+          <div class="card-icon">🤝</div>
+          <div class="card-title" id="shareTitle">Share Equipment</div>
+          <div class="card-desc" id="shareDesc">
+            Collaborate with fellow farmers and share tools for mutual benefit.
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="equipmentSection">
+      <h2 id="equipListTitle">Available Equipment</h2>
+      <ul id="equipmentList" style="margin-left:1rem; color:#444;">
+        <li>Tractor (Mahindra 575 DI) – Rent/Buy</li>
+        <li>Disc Plough – Rent/Share</li>
+        <li>Rotavator – Rent/Sell</li>
+        <li>Seed Drill – Buy</li>
+        <li>Harvesting Combine – Rent</li>
+        <li>Cultivator – Share</li>
+      </ul>
+      <small style="color:#888;" id="equipNote">*Contact owners directly for more details.</small>
+    </section>
+    <section id="formSection">
+      <h2 id="postAdTitle">Post Your Equipment Ad</h2>
+      <form id="adForm" autocomplete="off">
+        <label for="name" id="nameLabel">Your Name</label>
+        <input type="text" id="name" required>
+        <label for="phone" id="phoneLabel">Phone Number</label>
+        <input type="tel" id="phone" required pattern="[0-9]{10}" maxlength="10">
+        <label for="type" id="typeLabel">Ad Type</label>
+        <select id="type" required>
+          <option value="rent">Rent</option>
+          <option value="sell">Sell</option>
+          <option value="buy">Buy</option>
+          <option value="share">Share</option>
+        </select>
+        <label for="equip" id="equipLabel">Equipment Name</label>
+        <input type="text" id="equip" required>
+        <label for="desc" id="descLabel">Description</label>
+        <textarea id="desc" rows="2"></textarea>
+        <button type="submit" id="submitBtn">Submit</button>
+        <div id="formMsg" style="color:var(--primary-green); margin-top:0.5rem; font-weight:bold;"></div>
+      </form>
+    </section>
+    <section id="contactSection">
+      <h2 id="contactTitle">Contact Us</h2>
+      <p id="contactDesc">
+        For support or queries, call <b>+91-9876543210</b> or email <b>farmequip@support.com</b>
+      </p>
+    </section>
+  </main>
+  <div class="footer" id="footerText">
+    &copy; 2025 Farm Equipment Hub | Powered by Farmers
+  </div>
+  <script>
+    // Kannada translations (example, expand as needed)
+    const kn = {
+      siteTitle: "ಕೃಷಿ ಉಪಕರಣ ಕೇಂದ್ರ",
+      siteDesc: "ಜಮೀನಿನ ಕೆಲಸಕ್ಕೆ ಕೃಷಿ ಉಪಕರಣಗಳನ್ನು ಬಾಡಿಗೆಗೆ, ಮಾರಾಟಕ್ಕೆ, ಖರೀದಿಗೆ ಅಥವಾ ಹಂಚಿಕೊಳ್ಳಿ.",
+      navHome: "ಮುಖಪುಟ",
+      navEquip: "ಉಪಕರಣಗಳು",
+      navForm: "ಜಾಹೀರಾತು ಹಾಕಿ",
+      navContact: "ಸಂಪರ್ಕಿಸಿ",
+      welcomeTitle: "ಕೃಷಿಕರ ಉಪಕರಣ ಕೇಂದ್ರಕ್ಕೆ ಸ್ವಾಗತ",
+      welcomeDesc: "ಅಗತ್ಯವಾದ ಕೃಷಿ ಉಪಕರಣಗಳನ್ನು ಸುಲಭವಾಗಿ ಬಾಡಿಗೆಗೆ, ಮಾರಾಟಕ್ಕೆ, ಖರೀದಿಗೆ ಅಥವಾ ಹಂಚಿಕೊಳ್ಳಿ. ಸರಿಯಾದ ಉಪಕರಣಗಳೊಂದಿಗೆ ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಬಲಪಡಿಸಿ, ಸ್ಥಳೀಯ ಕೃಷಿಕರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸಿ ಮತ್ತು ಕೃಷಿಯನ್ನು ಹೆಚ್ಚು ಪರಿಣಾಮಕಾರಿ ಹಾಗೂ ಅಗ್ಗದದಾಗಿ ಮಾಡಿ.",
+      rentTitle: "ಉಪಕರಣ ಬಾಡಿಗೆ",
+      rentDesc: "ನಿಮ್ಮ ಜಮೀನಿನ ಕೆಲಸಕ್ಕೆ ಟ್ರ್ಯಾಕ್ಟರ್, ಪ್ಲೌ, ಹಾರ್ವೆಸ್ಟರ್‌ಗಳನ್ನು ಬಾಡಿಗೆಗೆ ಪಡೆಯಿರಿ.",
+      sellTitle: "ಉಪಕರಣ ಮಾರಾಟ",
+      sellDesc: "ನಿಮ್ಮ ಬಳಕೆಯ ಕೃಷಿ ಉಪಕರಣಗಳನ್ನು ಮಾರಾಟಕ್ಕೆ ಹಾಕಿ ಮತ್ತು ಖರೀದಿದಾರರನ್ನು ತಲುಪಿರಿ.",
+      buyTitle: "ಉಪಕರಣ ಖರೀದಿ",
+      buyDesc: "ಲಭ್ಯವಿರುವ ಉಪಕರಣಗಳನ್ನು ವೀಕ್ಷಿಸಿ ಮತ್ತು ಹತ್ತಿರದ ಮಾರಾಟದವರನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+      shareTitle: "ಉಪಕರಣ ಹಂಚಿಕೆ",
+      shareDesc: "ಇತರ ಕೃಷಿಕರೊಂದಿಗೆ ಉಪಕರಣಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ಪರಸ್ಪರ ಸಹಾಯ ಮಾಡಿ.",
+      equipListTitle: "ಲಭ್ಯವಿರುವ ಉಪಕರಣಗಳು",
+      equipNote: "*ಹೆಚ್ಚಿನ ವಿವರಗಳಿಗೆ ಮಾಲೀಕರನ್ನು ನೇರವಾಗಿ ಸಂಪರ್ಕಿಸಿ.",
+      postAdTitle: "ನಿಮ್ಮ ಉಪಕರಣ ಜಾಹೀರಾತು ಹಾಕಿ",
+      nameLabel: "ನಿಮ್ಮ ಹೆಸರು",
+      phoneLabel: "ದೂರವಾಣಿ ಸಂಖ್ಯೆ",
+      typeLabel: "ಜಾಹೀರಾತು ಪ್ರಕಾರ",
+      equipLabel: "ಉಪಕರಣದ ಹೆಸರು",
+      descLabel: "ವಿವರಣೆ",
+      submitBtn: "ಸಲ್ಲಿಸಿ",
+      contactTitle: "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+      contactDesc: "ಸಹಾಯ ಅಥವಾ ಪ್ರಶ್ನೆಗಳಿಗಾಗಿ, ಕರೆ ಮಾಡಿ <b>+91-9876543210</b> ಅಥವಾ ಇಮೇಲ್ ಮಾಡಿ <b>farmequip@support.com</b>",
+      footerText: "&copy; 2025 ಕೃಷಿ ಉಪಕರಣ ಕೇಂದ್ರ | ಕೃಷಿಕರಿಂದ ಚಾಲಿತ"
+    };
+
+    // English translations (for reset)
+    const en = {
+      siteTitle: "Farm Equipment Hub",
+      siteDesc: "Rent, Buy, Sell or Share Farm Equipment for Ploughing and Soil Harvesting",
+      navHome: "Home",
+      navEquip: "Equipment",
+      navForm: "Post Ad",
+      navContact: "Contact",
+      welcomeTitle: "Welcome to the Farmer's Equipment Hub",
+      welcomeDesc: "Easily <b>rent</b>, <b>buy</b>, <b>sell</b>, or <b>share</b> essential farming equipment. Empower your harvest with the right tools, connect with local farmers, and make farming more efficient and affordable.",
+      rentTitle: "Rent Equipment",
+      rentDesc: "Find and rent tractors, ploughs, and harvesters for your fieldwork.",
+      sellTitle: "Sell Equipment",
+      sellDesc: "List your used farm equipment and reach buyers quickly.",
+      buyTitle: "Buy Equipment",
+      buyDesc: "Browse available equipment and connect with sellers near you.",
+      shareTitle: "Share Equipment",
+      shareDesc: "Collaborate with fellow farmers and share tools for mutual benefit.",
+      equipListTitle: "Available Equipment",
+      equipNote: "*Contact owners directly for more details.",
+      postAdTitle: "Post Your Equipment Ad",
+      nameLabel: "Your Name",
+      phoneLabel: "Phone Number",
+      typeLabel: "Ad Type",
+      equipLabel: "Equipment Name",
+      descLabel: "Description",
+      submitBtn: "Submit",
+      contactTitle: "Contact Us",
+      contactDesc: "For support or queries, call <b>+91-9876543210</b> or email <b>farmequip@support.com</b>",
+      footerText: "&copy; 2025 Farm Equipment Hub | Powered by Farmers"
+    };
+
+    // Language switch logic
+    function setLang(lang) {
+      const dict = lang === 'kn' ? kn : en;
+      document.getElementById('siteTitle').textContent = dict.siteTitle;
+      document.getElementById('siteDesc').textContent = dict.siteDesc;
+      document.getElementById('navHome').textContent = dict.navHome;
+      document.getElementById('navEquip').textContent = dict.navEquip;
+      document.getElementById('navForm').textContent = dict.navForm;
+      document.getElementById('navContact').textContent = dict.navContact;
+      document.getElementById('welcomeTitle').textContent = dict.welcomeTitle;
+      document.getElementById('welcomeDesc').innerHTML = dict.welcomeDesc;
+      document.getElementById('rentTitle').textContent = dict.rentTitle;
+      document.getElementById('rentDesc').textContent = dict.rentDesc;
+      document.getElementById('sellTitle').textContent = dict.sellTitle;
+      document.getElementById('sellDesc').textContent = dict.sellDesc;
+      document.getElementById('buyTitle').textContent = dict.buyTitle;
+      document.getElementById('buyDesc').textContent = dict.buyDesc;
+      document.getElementById('shareTitle').textContent = dict.shareTitle;
+      document.getElementById('shareDesc').textContent = dict.shareDesc;
+      document.getElementById('equipListTitle').textContent = dict.equipListTitle;
+      document.getElementById('equipNote').textContent = dict.equipNote;
+      document.getElementById('postAdTitle').textContent = dict.postAdTitle;
+      document.getElementById('nameLabel').textContent = dict.nameLabel;
+      document.getElementById('phoneLabel').textContent = dict.phoneLabel;
+      document.getElementById('typeLabel').textContent = dict.typeLabel;
+      document.getElementById('equipLabel').textContent = dict.equipLabel;
+      document.getElementById('descLabel').textContent = dict.descLabel;
+      document.getElementById('submitBtn').textContent = dict.submitBtn;
+      document.getElementById('contactTitle').textContent = dict.contactTitle;
+      document.getElementById('contactDesc').innerHTML = dict.contactDesc;
+      document.getElementById('footerText').innerHTML = dict.footerText;
+    }
+
+    document.getElementById('enBtn').addEventListener('click', function() {
+      setLang('en');
+      this.classList.add('active');
+      document.getElementById('knBtn').classList.remove('active');
+    });
+    document.getElementById('knBtn').addEventListener('click', function() {
+      setLang('kn');
+      this.classList.add('active');
+      document.getElementById('enBtn').classList.remove('active');
+    });
+  </script>
+</body>
+</html>

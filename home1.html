@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrushiSathi - Empowering Farmers, Enriching Agriculture</title>
+    <style>
+        :root {
+            --primary-green: #2e8b57;
+            --secondary-green: #e6f2e6;
+            --light-green: #b8e0b8;
+            --medium-green: #57a957;
+            --brown: #8b4513;
+            --light-brown: #deb887;
+            --very-light-brown: #f5f0e6;
+            --alert-yellow: #fff4dd;
+            --alert-border: #ffc107;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        .navbar {
+            background-color: var(--secondary-green);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo .krushi {
+            color: var(--primary-green);
+        }
+
+        .logo .sathi {
+            color: var(--brown);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .language-btn, .user-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .language-btn:hover {
+            background-color: #236744;
+        }
+
+        .user-btn {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-btn:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .user-icon {
+            font-size: 18px;
+        }
+
+        .hero {
+            padding: 40px 30px;
+            text-align: center;
+            background-color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 .krushi {
+            color: var(--primary-green);
+        }
+
+        .hero h1 .sathi {
+            color: var(--brown);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .alert-container {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-weather {
+            background-color: var(--alert-yellow);
+            border-left: 4px solid var(--alert-border);
+        }
+
+        .alert-season {
+            background-color: var(--secondary-green);
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .alert-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .alert-text {
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            color: var(--primary-green);
+        }
+
+        .feature-icon.brown {
+            color: var(--brown);
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .view-more-btn {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 1.5px solid var(--primary-green);
+            color: var(--primary-green);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-more-btn:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .view-more-btn.brown {
+            border-color: var(--brown);
+            color: var(--brown);
+        }
+
+        .view-more-btn.brown:hover {
+            background-color: var(--brown);
+            color: white;
+        }
+
+        footer {
+            background-color: var(--secondary-green);
+            padding: 20px 30px;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+
+        /* Kannada language styles */
+        .kn-text {
+            display: none;
+        }
+
+        body.kannada .en-text {
+            display: none;
+        }
+
+        body.kannada .kn-text {
+            display: block;
+        }
+
+        body.kannada .kn-inline {
+            display: inline;
+        }
+
+        body.kannada .en-inline {
+            display: none;
+        }
+
+        .en-inline {
+            display: inline;
+        }
+
+        .kn-inline {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <span class="krushi">Krushi</span><span class="sathi">Sathi</span>
+        </a>
+        <div class="nav-buttons">
+            <button id="language-toggle" class="language-btn">
+                <span class="en-inline">ಕನ್ನಡ</span>
+                <span class="kn-inline">EN</span>
+            </button>
+            <button id="buyer-btn" class="user-btn active">
+                <span class="user-icon">👤</span>
+                <span class="en-inline">Buyer</span>
+                <span class="kn-inline">ಖರೀದಿದಾರ</span>
+            </button>
+            <button id="seller-btn" class="user-btn">
+                <span class="user-icon">👨‍🌾</span>
+                <span class="en-inline">Seller</span>
+                <span class="kn-inline">ಮಾರಾಟಗಾರ</span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>
+            <span class="krushi">Krushi</span><span class="sathi">Sathi</span>
+        </h1>
+        <p class="en-text">Empowering Farmers, Enriching Agriculture</p>
+        <p class="kn-text">ರೈತರನ್ನು ಸಬಲೀಕರಣಗೊಳಿಸುವುದು, ಕೃಷಿಯನ್ನು ಸಮೃದ್ಧಗೊಳಿಸುವುದು</p>
+    </section>
+
+    <div class="alert-container">
+        <div class="alert alert-weather">
+            <span class="alert-icon">⚠️</span>
+            <p class="alert-text en-text">Weather Alert: Rain expected in the next 24 hours in your region.</p>
+            <p class="alert-text kn-text">ಹವಾಮಾನ ಎಚ್ಚರಿಕೆ: ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಮುಂದಿನ 24 ಗಂಟೆಗಳಲ್ಲಿ ಮಳೆ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ.</p>
+        </div>
+        <div class="alert alert-season">
+            <span class="alert-icon">🌱</span>
+            <p class="alert-text en-text">Season Update: Winter crop planting season begins next week.</p>
+            <p class="alert-text kn-text">ಋತುಮಾನ ಅಪ್ಡೇಟ್: ಚಳಿಗಾಲದ ಬೆಳೆ ನೆಡುವ ಋತು ಮುಂದಿನ ವಾರ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ.</p>
+        </div>
+    </div>
+
+    <div class="features-container">
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon">☁️</span>
+                <h3 class="feature-title en-text">Weather Forecasts & Alerts</h3>
+                <h3 class="feature-title kn-text">ಹವಾಮಾನ ಮುನ್ಸೂಚನೆಗಳು & ಎಚ್ಚರಿಕೆಗಳು</h3>
+            </div>
+            <p class="feature-description en-text">
+                Get real-time weather forecasts and important alerts for your farm location.
+            </p>
+            <p class="feature-description kn-text">
+                ನಿಮ್ಮ ಕೃಷಿ ಸ್ಥಳಕ್ಕೆ ನೈಜ ಸಮಯದ ಹವಾಮಾನ ಮುನ್ಸೂಚನೆಗಳು ಮತ್ತು ಮಹತ್ವದ ಎಚ್ಚರಿಕೆಗಳನ್ನು ಪಡೆಯಿರಿ.
+            </p>
+    
+            <!-- ENGLISH button -->
+            <a href="weather.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+        </div>
+   
+    
+
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon">🌱</span>
+                <h3 class="feature-title en-text">Crop Management</h3>
+                <h3 class="feature-title kn-text">ಬೆಳೆ ನಿರ್ವಹಣೆ</h3>
+            </div>
+            <p class="feature-description en-text">Manage your crops with pesticide schedules and timely reminders.</p>
+            <p class="feature-description kn-text">ಕೀಟನಾಶಕ ವೇಳಾಪಟ್ಟಿಗಳು ಮತ್ತು ಸಮಯೋಚಿತ ಜ್ಞಾಪನೆಗಳೊಂದಿಗೆ ನಿಮ್ಮ ಬೆಳೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.</p>
+            <a href="manag.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon brown">📊</span>
+                <h3 class="feature-title">Market Prices & Connection</h3>
+            </div>
+        
+            <p class="feature-description">
+                Find current market prices and connect with buyers/sellers in your area.
+            </p>
+            <a href="market.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+        </div>
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon brown">🚜</span>
+                <h3 class="feature-title en-text">Farming Equipment</h3>
+                <h3 class="feature-title kn-text">ಕೃಷಿ ಉಪಕರಣಗಳು</h3>
+            </div>
+            <p class="feature-description en-text">Rent, share, buy or sell farming equipment in your local community.</p>
+            <p class="feature-description kn-text">ನಿಮ್ಮ ಸ್ಥಳೀಯ ಸಮುದಾಯದಲ್ಲಿ ಕೃಷಿ ಉಪಕರಣಗಳನ್ನು ಬಾಡಿಗೆ, ಹಂಚಿಕೆ, ಖರೀದಿ ಅಥವಾ ಮಾರಾಟ ಮಾಡಿ.</p>
+            <a href="farm.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon">🌿</span>
+                <h3 class="feature-title en-text">Disease Detection</h3>
+                <h3 class="feature-title kn-text">ರೋಗ ಪತ್ತೆ</h3>
+            </div>
+            <p class="feature-description en-text">Upload photos of your crops to detect diseases and get treatment advice.</p>
+            <p class="feature-description kn-text">ರೋಗಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಮತ್ತು ಚಿಕಿತ್ಸೆಯ ಸಲಹೆಯನ್ನು ಪಡೆಯಲು ನಿಮ್ಮ ಬೆಳೆಗಳ ಫೋಟೋಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ.</p>
+            <a href="detect.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+    
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon brown">📅</span>
+                <h3 class="feature-title en-text">crop calendar</h3>
+                <h3 class="feature-title kn-text">ಋತುಮಾನ ಟ್ರ್ಯಾಕರ್</h3>
+            </div>
+            <p class="feature-description en-text">
+                Track seasonal changes and receive timely alerts for weather changes.
+            </p>
+            <p class="feature-description kn-text">
+                ಋತುಮಾನದ ಬದಲಾವಣೆಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ಹವಾಮಾನ ಬದಲಾವಣೆಗಳಿಗೆ ಸಮಯೋಚಿತ ಎಚ್ಚರಿಕೆಗಳನ್ನು ಪಡೆಯಿರಿ.
+            </p>
+        
+            <!-- English Button -->
+            <a href="calender.html">
+                <button class="view-more-btn brown en-text">View More</button>
+            </a>
+        
+            <!-- Kannada Button -->
+            <a href="calender.html">
+                <button class="view-more-btn brown kn-text">ಇನ್ನಷ್ಟು ನೋಡಿ</button>
+            </a>
+        </div>
+    
+        <div class="feature-card">
+            <div class="feature-header">
+                <span class="feature-icon">📋</span>
+                <h3 class="feature-title">Government Schemes</h3>
+            </div>
+            <p class="feature-description">
+                Access information about government schemes, subsidies, and programs for farmers.
+            </p>
+            <a href="govt.html" class="view-more-btn en-text" style="text-decoration: none; display: inline-block;">
+                View More
+            </a>
+        </div> 
+        </div>       
+
+    <footer>
+        <p class="en-text">© 2025 <a href="#">KrushiSathi</a> - Empowering Farmers, Enriching Agriculture</p>
+        <p class="kn-text">© 2025 <a href="#">ಕೃಷಿಸಾಥಿ</a> - ರೈತರನ್ನು ಸಬಲೀಕರಣಗೊಳಿಸುವುದು, ಕೃಷಿಯನ್ನು ಸಮೃದ್ಧಗೊಳಿಸುವುದು</p>
+    </footer>
+
+    <script>
+        // Language toggle functionality
+        const languageToggle = document.getElementById('language-toggle');
+        languageToggle.addEventListener('click', function() {
+            document.body.classList.toggle('kannada');
+        });
+
+        // User type (buyer/seller) toggle
+        const buyerBtn = document.getElementById('buyer-btn');
+        const sellerBtn = document.getElementById('seller-btn');
+
+        buyerBtn.addEventListener('click', function() {
+            buyerBtn.classList.add('active');
+            sellerBtn.classList.remove('active');
+        });
+
+        sellerBtn.addEventListener('click', function() {
+            sellerBtn.classList.add('active');
+            buyerBtn.classList.remove('active');
+        });
+
+        // Additional styling for active user button
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .user-btn.active {
+                    background-color: var(--primary-green);
+                    color: white;
+                }
+                .feature-card:nth-child(odd) {
+                    border-top: 3px solid var(--primary-green);
+                }
+                .feature-card:nth-child(even) {
+                    border-top: 3px solid var(--brown);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

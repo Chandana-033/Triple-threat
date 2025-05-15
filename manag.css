@@ -1,0 +1,84 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.crop-card {
+    border-radius: 8px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.crop-card:hover {
+    transform: translateY(-5px);
+}
+
+.reminder-item {
+    border-left: 4px solid #ffc107;
+}
+
+.pesticide-card {
+    border-left: 4px solid #dc3545;
+}
+
+.management-tip {
+    border-left: 4px solid #17a2b8;
+}
+
+#cropSuggestions .col-md-4 {
+    margin-bottom: 20px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    #cropSuggestions .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

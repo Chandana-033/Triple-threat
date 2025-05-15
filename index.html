@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrushiSathi - Farmer Portal</title>
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --primary-brown: #795548;
+            --light-green: #e8f5e9;
+            --light-brown: #efebe9;
+            --white: #ffffff;
+            --gray: #f5f5f5;
+            --dark-gray: #616161;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-image: url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 420px;
+            padding: 2rem;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .language-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            background: var(--gray);
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-green);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo h1 .green {
+            color: var(--primary-green);
+        }
+        
+        .logo h1 .brown {
+            color: var(--primary-brown);
+        }
+        
+        .logo p {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-green);
+            outline: none;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #1b5e20;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .options a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .options a:hover {
+            color: var(--primary-brown);
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* OTP Section */
+        .otp-section {
+            display: none;
+        }
+        
+        .otp-fields {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .otp-field {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .otp-field:focus {
+            border-color: var(--primary-green);
+            outline: none;
+        }
+        
+        /* Registration Form */
+        #registration-form {
+            display: none;
+        }
+        
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-green);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary-brown);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle">
+            <button class="lang-btn active" id="en-btn">English</button>
+            <button class="lang-btn" id="kn-btn">ಕನ್ನಡ</button>
+        </div>
+        
+        <!-- Login Form (Default) -->
+        <div id="login-form">
+            <div class="logo">
+                <h1><span class="green">Krushi</span><span class="brown">Sathi</span></h1>
+                <p id="logo-tagline">Your Farming Partner</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone" id="phone-label">Phone Number</label>
+                <input type="tel" id="phone" placeholder="Enter your 10-digit phone number">
+            </div>
+            
+            <div class="form-group">
+                <label for="password" id="password-label">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            
+            <button class="btn" id="login-btn">Login</button>
+            
+            <div class="divider">
+                <span id="divider-text">OR</span>
+            </div>
+            
+            <div class="options">
+                <a href="#" id="register-link">New User? Register</a>
+                <a href="#" id="forgot-link">Forgot Password?</a>
+            </div>
+        </div>
+        
+        <!-- OTP Section -->
+        <div class="otp-section" id="otp-section">
+            <p id="otp-message">Enter the 4-digit OTP sent to your phone</p>
+            <div class="otp-fields">
+                <input type="text" class="otp-field" maxlength="1">
+                <input type="text" class="otp-field" maxlength="1">
+                <input type="text" class="otp-field" maxlength="1">
+                <input type="text" class="otp-field" maxlength="1">
+            </div>
+            <p id="otp-timer">Resend OTP in <span>60</span> seconds</p>
+            <button class="btn" id="verify-otp-btn">Verify OTP</button>
+        </div>
+        
+        <!-- Registration Form -->
+        <div id="registration-form">
+            <button class="back-btn" id="back-btn">← Back to Login</button>
+            
+            <div class="logo">
+                <h1><span class="green">Krushi</span><span class="brown">Sathi</span></h1>
+                <p id="register-tagline">Create New Account</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-name" id="name-label">Full Name</label>
+                <input type="text" id="reg-name" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-phone" id="reg-phone-label">Phone Number</label>
+                <input type="tel" id="reg-phone" placeholder="Enter your 10-digit phone number">
+            </div>
+            
+            <button class="btn" id="send-otp-btn">Send OTP</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const registrationForm = document.getElementById('registration-form');
+        const otpSection = document.getElementById('otp-section');
+        const registerLink = document.getElementById('register-link');
+        const backBtn = document.getElementById('back-btn');
+        const enBtn = document.getElementById('en-btn');
+        const knBtn = document.getElementById('kn-btn');
+        const sendOtpBtn = document.getElementById('send-otp-btn');
+        const loginBtn = document.getElementById('login-btn');
+        
+        // English and Kannada language content
+        const translations = {
+            english: {
+                logoTagline: "Your Farming Partner",
+                phoneLabel: "Phone Number",
+                passwordLabel: "Password",
+                loginBtn: "Login",
+                dividerText: "OR",
+                registerLink: "New User? Register",
+                forgotLink: "Forgot Password?",
+                otpMessage: "Enter the 4-digit OTP sent to your phone",
+                otpTimer: "Resend OTP in <span>60</span> seconds",
+                verifyOtpBtn: "Verify OTP",
+                registerTagline: "Create New Account",
+                nameLabel: "Full Name",
+                regPhoneLabel: "Phone Number",
+                sendOtpBtn: "Send OTP",
+                backBtn: "← Back to Login"
+            },
+            kannada: {
+                logoTagline: "ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ",
+                phoneLabel: "ಫೋನ್ ಸಂಖ್ಯೆ",
+                passwordLabel: "ಪಾಸ್‌ವರ್ಡ್",
+                loginBtn: "ಲಾಗಿನ್",
+                dividerText: "ಅಥವಾ",
+                registerLink: "ಹೊಸ ಬಳಕೆದಾರರೇ? ನೋಂದಣಿ",
+                forgotLink: "ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರುವಿರಾ?",
+                otpMessage: "ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಕಳುಹಿಸಲಾದ 4-ಅಂಕಿಯ OTP ಅನ್ನು ನಮೂದಿಸಿ",
+                otpTimer: "<span>60</span> ಸೆಕೆಂಡುಗಳಲ್ಲಿ OTP ಮರುಕಳುಹಿಸಿ",
+                verifyOtpBtn: "OTP ಪರಿಶೀಲಿಸಿ",
+                registerTagline: "ಹೊಸ ಖಾತೆಯನ್ನು ರಚಿಸಿ",
+                nameLabel: "ಪೂರ್ಣ ಹೆಸರು",
+                regPhoneLabel: "ಫೋನ್ ಸಂಖ್ಯೆ",
+                sendOtpBtn: "OTP ಕಳುಹಿಸಿ",
+                backBtn: "← ಲಾಗಿನ್‌ಗೆ ಹಿಂತಿರುಗಿ"
+            }
+        };
+        
+        // Function to change language
+        function changeLanguage(lang) {
+            const content = translations[lang];
+            
+            // Update all text elements
+            document.getElementById('logo-tagline').textContent = content.logoTagline;
+            document.getElementById('phone-label').textContent = content.phoneLabel;
+            document.getElementById('password-label').textContent = content.passwordLabel;
+            document.getElementById('login-btn').textContent = content.loginBtn;
+            document.getElementById('divider-text').textContent = content.dividerText;
+            document.getElementById('register-link').textContent = content.registerLink;
+            document.getElementById('forgot-link').textContent = content.forgotLink;
+            document.getElementById('otp-message').textContent = content.otpMessage;
+            document.getElementById('otp-timer').innerHTML = content.otpTimer;
+            document.getElementById('verify-otp-btn').textContent = content.verifyOtpBtn;
+            document.getElementById('register-tagline').textContent = content.registerTagline;
+            document.getElementById('name-label').textContent = content.nameLabel;
+            document.getElementById('reg-phone-label').textContent = content.regPhoneLabel;
+            document.getElementById('send-otp-btn').textContent = content.sendOtpBtn;
+            document.getElementById('back-btn').innerHTML = content.backBtn;
+            
+            // Update placeholders
+            if (lang === 'english') {
+                document.getElementById('phone').placeholder = "Enter your 10-digit phone number";
+                document.getElementById('password').placeholder = "Enter your password";
+                document.getElementById('reg-name').placeholder = "Enter your full name";
+                document.getElementById('reg-phone').placeholder = "Enter your 10-digit phone number";
+            } else {
+                document.getElementById('phone').placeholder = "ನಿಮ್ಮ 10-ಅಂಕಿಯ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ";
+                document.getElementById('password').placeholder = "ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
+                document.getElementById('reg-name').placeholder = "ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರನ್ನು ನಮೂದಿಸಿ";
+                document.getElementById('reg-phone').placeholder = "ನಿಮ್ಮ 10-ಅಂಕಿಯ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ";
+            }
+        }
+        
+        // Event listeners
+        registerLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registrationForm.style.display = 'block';
+        });
+        
+        backBtn.addEventListener('click', function() {
+            registrationForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+        
+        enBtn.addEventListener('click', function() {
+            enBtn.classList.add('active');
+            knBtn.classList.remove('active');
+            changeLanguage('english');
+        });
+        
+        knBtn.addEventListener('click', function() {
+            knBtn.classList.add('active');
+            enBtn.classList.remove('active');
+            changeLanguage('kannada');
+        });
+        
+        sendOtpBtn.addEventListener('click', function() {
+            const phoneInput = document.getElementById('reg-phone').value;
+            if (phoneInput.length === 10 && /^\d+$/.test(phoneInput)) {
+                registrationForm.style.display = 'none';
+                otpSection.style.display = 'block';
+                startOtpTimer();
+            } else {
+                alert('Please enter a valid 10-digit phone number');
+            }
+        });
+        
+        loginBtn.addEventListener('click', function() {
+            const phoneInput = document.getElementById('phone').value;
+            const passwordInput = document.getElementById('password').value;
+            
+            if (phoneInput && passwordInput) {
+                // Alert success message
+                alert('Successfully logged in! Redirecting to dashboard...');
+                
+                // Redirect to home page
+                window.location.href = 'home1.html';
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        // OTP verification functionality
+        document.getElementById('verify-otp-btn').addEventListener('click', function() {
+            // Check if all OTP fields are filled
+            const otpFields = document.querySelectorAll('.otp-field');
+            let isComplete = true;
+            
+            otpFields.forEach(field => {
+                if (!field.value) {
+                    isComplete = false;
+                }
+            });
+            
+            if (isComplete) {
+                alert('OTP verified successfully! Redirecting to dashboard...');
+                // Redirect to home page
+                window.location.href = 'home1.html';
+            } else {
+                alert('Please enter the complete OTP');
+            }
+        });
+        
+        // OTP timer function
+        function startOtpTimer() {
+            let timeLeft = 60;
+            const timerSpan = document.querySelector('#otp-timer span');
+            
+            const timer = setInterval(() => {
+                timeLeft--;
+                timerSpan.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                }
+            }, 1000);
+        }
+        
+        // OTP field auto-focus
+        const otpFields = document.querySelectorAll('.otp-field');
+        
+        otpFields.forEach((field, index) => {
+            field.addEventListener('input', function() {
+                if (field.value.length === 1) {
+                    if (index < otpFields.length - 1) {
+                        otpFields[index + 1].focus();
+                    }
+                }
+            });
+            
+            field.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && field.value === '') {
+                    if (index > 0) {
+                        otpFields[index - 1].focus();
+                    }
+                }
+            });
+        });
+        
+        // Initialize with English language
+        changeLanguage('english');
+    </script>
+</body>
+</html>

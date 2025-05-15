@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Disease Detection for Farmers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --green: #388e3c;
+      --dark-green: #205522;
+      --brown: #8d6748;
+      --light-brown: #c9a97e;
+      --white: #fff;
+      --shadow: rgba(60,60,60,0.08);
+    }
+    /* Animated gradient background */
+    body {
+      background: linear-gradient(135deg, var(--green) 0%, var(--light-brown) 100%);
+      background-size: 200% 200%;
+      animation: gradientMove 8s ease-in-out infinite;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--dark-green);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Floating animated circles */
+    .bg-anim {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      animation: float 12s infinite ease-in-out;
+    }
+    .circle1 { width: 200px; height: 200px; background: var(--green); left: 10%; top: 20%; animation-delay: 0s;}
+    .circle2 { width: 150px; height: 150px; background: var(--brown); left: 70%; top: 60%; animation-delay: 3s;}
+    .circle3 { width: 120px; height: 120px; background: var(--dark-green); left: 40%; top: 80%; animation-delay: 6s;}
+    @keyframes float {
+      0%, 100% { transform: translateY(0);}
+      50% { transform: translateY(-40px);}
+    }
+    /* Main container styling - MADE BIGGER */
+    .container {
+      background: var(--white);
+      width: 95%;
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px var(--shadow);
+      padding: 48px 48px 56px 48px;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .lang-switch {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+    .switch-btn {
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 16px;
+      padding: 6px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.2s;
+    }
+    .switch-btn.active {
+      background: var(--green);
+    }
+    label {
+      font-weight: 500;
+      margin-top: 16px;
+      display: block;
+      color: var(--dark-green);
+    }
+    input[type="file"] {
+      margin: 12px 0 20px 0;
+      width: 100%;
+    }
+    .btn {
+      background: var(--green);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 0;
+      width: 100%;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: var(--dark-green);
+    }
+    .result, .suggestions {
+      background: var(--light-brown);
+      color: var(--dark-green);
+      border-radius: 8px;
+      padding: 14px 12px;
+      margin-top: 16px;
+      font-size: 1.05em;
+      white-space: pre-line;
+      line-height: 2; /* Increased line spacing */
+    }
+    .back-btn {
+      display: inline-block;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 12px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .back-btn:hover {
+      background: var(--green);
+    }
+    .hidden { display: none; }
+    @media (max-width: 1000px) {
+      .container { max-width: 98vw; padding: 24px 8px 32px 8px; }
+    }
+    @media (max-width: 600px) {
+      .container { margin: 0; border-radius: 0; width: 100vw; }
+    }
+    body, .container, .result, .suggestions, label, p {
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim">
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+  </div>
+  <div class="container">
+    <div class="lang-switch">
+      <button id="enBtn" class="switch-btn active">English</button>
+      <button id="knBtn" class="switch-btn">ಕನ್ನಡ</button>
+    </div>
+    <div id="homePage">
+      <h1 id="mainTitle">Disease Detection</h1>
+      <p id="desc">Upload a photo of your crop or soil to detect possible diseases and get suggestions to keep your crop healthy.</p>
+      <label for="fileInput" id="fileLabel">Upload Image / File:</label>
+      <input type="file" id="fileInput" accept="image/*">
+      <button class="btn" id="analyzeBtn">Analyze</button>
+    </div>
+    <div id="resultPage" class="hidden">
+      <h1 id="resultTitle">Results</h1>
+      <div class="result" id="conditionResult"></div>
+      <div class="suggestions" id="suggestionResult"></div>
+      <button class="back-btn" id="backBtn">← Back to Home</button>
+    </div>
+  </div>
+  <script>
+    // Language Data with more suggestions
+    const lang = {
+      en: {
+        mainTitle: "Disease Detection",
+        desc: "Upload a photo of your crop or soil to detect possible diseases and get suggestions to keep your crop healthy.",
+        fileLabel: "Upload Image / File:",
+        analyzeBtn: "Analyze",
+        resultTitle: "Results",
+        backBtn: "← Back to Home",
+        // Simulated results
+        healthy: "Soil: Moist and rich in nutrients.\nCrop: Leaves are green and healthy.",
+        unhealthy: "Soil: Dry and cracked.\nCrop: Yellow spots and wilting observed.",
+        healthySug: `• Keep soil moist but avoid overwatering.
+• Use organic fertilizer monthly.
+• Regularly check for pests.
+• Rotate crops yearly to prevent soil depletion.
+• Mulch to retain soil moisture and suppress weeds.
+• Maintain proper plant spacing for airflow.
+• Test soil pH every season.
+• Remove weeds regularly.
+• Use disease-resistant crop varieties if possible.
+• Observe crops for early signs of disease each week.`,
+        unhealthySug: `• Water the soil immediately.
+• Remove affected leaves.
+• Use suitable fungicide.
+• Improve soil with compost.
+• Ensure proper drainage to prevent root rot.
+• Apply neem oil for organic pest control.
+• Consult local agricultural experts if symptoms persist.
+• Avoid overhead watering to reduce fungal spread.
+• Increase sunlight exposure if possible.
+• Check for insect infestations and treat accordingly.`,
+        noFile: "Please upload an image of your crop or soil."
+      },
+      kn: {
+        mainTitle: "ರೋಗ ಪತ್ತೆ",
+        desc: "ನಿಮ್ಮ ಬೆಳೆ ಅಥವಾ ಮಣ್ಣಿನ ಫೋಟೋವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ, ಸಾಧ್ಯವಿರುವ ರೋಗಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ ಮತ್ತು ಬೆಳೆ ಆರೋಗ್ಯವಾಗಿರಿಸಲು ಸಲಹೆಗಳನ್ನು ಪಡೆಯಿರಿ.",
+        fileLabel: "ಚಿತ್ರ / ಫೈಲ್ ಅಪ್ಲೋಡ್ ಮಾಡಿ:",
+        analyzeBtn: "ವಿಶ್ಲೇಷಿಸಿ",
+        resultTitle: "ಫಲಿತಾಂಶಗಳು",
+        backBtn: "← ಮನೆಗೆ ಹಿಂತಿರುಗಿ",
+        healthy: "ಮಣ್ಣು: ತೇವಾಂಶದಿಂದ ಕೂಡಿದ್ದು, ಪೋಷಕಾಂಶಗಳಲ್ಲಿ ಶ್ರೀಮಂತವಾಗಿದೆ.\nಬೆಳೆ: ಎಲೆಗಳು ಹಸಿರು ಮತ್ತು ಆರೋಗ್ಯವಾಗಿವೆ.",
+        unhealthy: "ಮಣ್ಣು: ಒಣಗಿದ ಮತ್ತು ಬಿರುಕು ಬಿಟ್ಟಿದೆ.\nಬೆಳೆ: ಹಳದಿ ಕಲೆಗಳು ಮತ್ತು ಒಣಗುತ್ತಿರುವುದು ಕಂಡುಬರುತ್ತದೆ.",
+        healthySug: `• ಮಣ್ಣನ್ನು ತೇವವಾಗಿಡಿ, ಆದರೆ ಹೆಚ್ಚು ನೀರು ಹಾಕಬೇಡಿ.
+• ತಿಂಗಳಿಗೆ ಒಂದು ಬಾರಿ ಜೈವಿಕ ರಸಗೊಬ್ಬರ ಬಳಸಿ.
+• ನಿಯಮಿತವಾಗಿ ಕೀಟಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಿ.
+• ಪ್ರತಿವರ್ಷ ಬೆಳೆ ಪರಿವರ್ತನೆ ಮಾಡಿ.
+• ಮಣ್ಣಿನ ತೇವಾಂಶ ಉಳಿಸಲು ಮತ್ತು ಹುಲ್ಲುಗಳನ್ನು ತಡೆಯಲು ಮುಲ್ಚ್ ಬಳಸಿ.
+• ಗಾಳಿಯ ಹರಿವಿಗೆ ಸರಿಯಾದ ಅಂತರದಲ್ಲಿ ಬೆಳೆಗಳನ್ನು ನೆಡಿ.
+• ಪ್ರತಿ ಋತುವಿನಲ್ಲಿ ಮಣ್ಣಿನ ಪಿ.ಎಚ್ ಪರೀಕ್ಷಿಸಿ.
+• ನಿಯಮಿತವಾಗಿ ಹುಲ್ಲುಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.
+• ಸಾಧ್ಯವಾದರೆ ರೋಗ ನಿರೋಧಕ ಬೆಳೆ ವಿಧಗಳನ್ನು ಬಳಸಿ.
+• ಪ್ರತೀ ವಾರ ಬೆಳೆಗಳಲ್ಲಿ ರೋಗದ ಆರಂಭಿಕ ಲಕ್ಷಣಗಳನ್ನು ಗಮನಿಸಿ.`,
+        unhealthySug: `• ತಕ್ಷಣವೇ ಮಣ್ಣಿಗೆ ನೀರು ಹಾಕಿ.
+• ಹಾನಿಗೊಳಗಾದ ಎಲೆಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.
+• ಸೂಕ್ತವಾದ ಶಿಲೀಂಧ್ರನಾಶಕ ಬಳಸಿ.
+• ಮಣ್ಣನ್ನು ಕಂಪೋಸ್ಟ್‌ನಿಂದ ಸುಧಾರಿಸಿ.
+• ಬೇರು ಕುಲುಮೆಯ ತಡೆಯಲು ಸರಿಯಾದ ನೀರಿನ ಹೊರಹೋಗುವ ವ್ಯವಸ್ಥೆ ಮಾಡಿ.
+• ಕೀಟ ನಿಯಂತ್ರಣಕ್ಕೆ ನೀಮ್ ಎಣ್ಣೆ ಬಳಸಿ.
+• ಲಕ್ಷಣಗಳು ಮುಂದುವರೆದರೆ ಸ್ಥಳೀಯ ಕೃಷಿ ತಜ್ಞರನ್ನು ಸಂಪರ್ಕಿಸಿ.
+• ಶಿಲೀಂಧ್ರ ಹರಡುವುದನ್ನು ತಡೆಯಲು ಮೇಲಿನಿಂದ ನೀರು ಹಾಕುವುದನ್ನು ತಪ್ಪಿಸಿ.
+• ಸಾಧ್ಯವಾದರೆ ಬೆಳೆಗೆ ಹೆಚ್ಚು ಬೆಳಕು ಒದಗಿಸಿ.
+• ಕೀಟಗಳ ಹಾವಳಿ ಇದ್ದರೆ ತಕ್ಷಣ ಚಿಕಿತ್ಸೆ ನೀಡಿ.`,
+        noFile: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಬೆಳೆ ಅಥವಾ ಮಣ್ಣಿನ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ."
+      }
+    };
+
+    let currentLang = 'en';
+
+    // Language Switch
+    function setLang(langKey) {
+      currentLang = langKey;
+      document.getElementById('mainTitle').innerText = lang[langKey].mainTitle;
+      document.getElementById('desc').innerText = lang[langKey].desc;
+      document.getElementById('fileLabel').innerText = lang[langKey].fileLabel;
+      document.getElementById('analyzeBtn').innerText = lang[langKey].analyzeBtn;
+      document.getElementById('resultTitle').innerText = lang[langKey].resultTitle;
+      document.getElementById('backBtn').innerText = lang[langKey].backBtn;
+      // Highlight active button
+      document.getElementById('enBtn').classList.toggle('active', langKey === 'en');
+      document.getElementById('knBtn').classList.toggle('active', langKey === 'kn');
+    }
+    document.getElementById('enBtn').onclick = () => setLang('en');
+    document.getElementById('knBtn').onclick = () => setLang('kn');
+
+    // Simulate Disease Detection (no backend)
+    document.getElementById('analyzeBtn').onclick = function() {
+      const file = document.getElementById('fileInput').files[0];
+      if (!file) {
+        alert(lang[currentLang].noFile);
+        return;
+      }
+      // Fake random detection for demonstration
+      const unhealthy = Math.random() > 0.5;
+      document.getElementById('conditionResult').innerText = unhealthy ? lang[currentLang].unhealthy : lang[currentLang].healthy;
+      document.getElementById('suggestionResult').innerText = unhealthy ? lang[currentLang].unhealthySug : lang[currentLang].healthySug;
+      document.getElementById('homePage').classList.add('hidden');
+      document.getElementById('resultPage').classList.remove('hidden');
+    };
+
+    // Back to Home
+    document.getElementById('backBtn').onclick = function() {
+      document.getElementById('resultPage').classList.add('hidden');
+      document.getElementById('homePage').classList.remove('hidden');
+      document.getElementById('fileInput').value = '';
+    };
+
+    // Initialize language
+    setLang('en');
+  </script>
+</body>
+</html>

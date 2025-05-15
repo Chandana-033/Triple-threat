@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KrushiSathi - Your Farming Companion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #4CAF50;
+            --dark-color: #5D4037;
+            --light-color: #EFEBE9;
+            --accent-color: #8D6E63;
+            --text-color: #3E2723;
+            --light-text: #F1F8E9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #F5F5F5; color: var(--text-color); line-height: 1.6; }
+        header { background: linear-gradient(to right, var(--dark-color), var(--primary-color)); color: var(--light-text); padding: 1rem; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .logo { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .logo-icon { font-size: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .form-container { background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem; border: 1px solid #D7CCC8; }
+        h1, h2, h3 { color: var(--dark-color); margin-bottom: 1rem; }
+        .form-title { text-align: center; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        select, input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+        button { background-color: var(--primary-color); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: var(--dark-color); }
+        .crop-results { display: none; background-color: var(--light-color); padding: 1.5rem; border-radius: 10px; margin-top: 2rem; border: 1px solid var(--accent-color); }
+        .crop-card { background-color: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 4px solid var(--secondary-color); display: flex; gap: 1.5rem; align-items: flex-start;}
+        .crop-image { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #ccc; }
+        .crop-info { flex: 1; }
+        .crop-name { color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .tools-container { display: none; margin-top: 2rem; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .tool-card { background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 1px solid #D7CCC8; transition: transform 0.3s; }
+        .tool-card:hover { transform: translateY(-5px); }
+        .tool-image { width: 100%; height: 150px; object-fit: cover; background-color: #F1F8E9; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #E0E0E0; }
+        .tool-content { padding: 1rem; }
+        .tool-name { font-weight: 600; margin-bottom: 0.5rem; }
+        .tool-price { color: var(--dark-color); font-weight: 600; }
+        footer { background: linear-gradient(to right, var(--dark-color), var(--primary-color)); color: var(--light-text); text-align: center; padding: 1.5rem; margin-top: 2rem; }
+        .language-toggle { position: absolute; top: 1rem; right: 1rem; background-color: var(--dark-color); color: white; padding: 0.5rem; border-radius: 5px; cursor: pointer; z-index: 100; }
+        .kannada-text { display: none; }
+        body.kannada .english-text { display: none; }
+        body.kannada .kannada-text { display: block; }
+        @media (max-width: 768px) { .tools-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+    </style>
+</head>
+<body>
+    <div class="language-toggle" onclick="toggleLanguage()">
+        <span class="english-text">ಕನ್ನಡ</span>
+        <span class="kannada-text">English</span>
+    </div>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">🌾</div>
+            <h1>
+                <span class="english-text">KrushiSathi</span>
+                <span class="kannada-text">ಕೃಷಿಸಾಥಿ</span>
+            </h1>
+        </div>
+        <p>
+            <span class="english-text">Your Trusted Farming Companion</span>
+            <span class="kannada-text">ನಿಮ್ಮ ವಿಶ್ವಾಸಾರ್ಹ ಕೃಷಿ ಸಹಾಯಕ</span>
+        </p>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-title">
+                <span class="english-text">Crop Calendar & Recommendation</span>
+                <span class="kannada-text">ಬೆಳೆ ಕ್ಯಾಲೆಂಡರ್ & ಶಿಫಾರಸು</span>
+            </h2>
+            <form id="cropForm">
+                <div class="form-group">
+                    <label for="soilType">
+                        <span class="english-text">Soil Type:</span>
+                        <span class="kannada-text">ಮಣ್ಣಿನ ಪ್ರಕಾರ:</span>
+                    </label>
+                    <select id="soilType" required>
+                        <option value="" class="english-text">Select Soil Type</option>
+                        <option value="" class="kannada-text">ಮಣ್ಣಿನ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</option>
+                        <option value="black">Black Soil</option>
+                        <option value="red">Red Soil</option>
+                        <option value="alluvial">Alluvial Soil</option>
+                        <option value="sandy">Sandy Soil</option>
+                        <option value="loam">Loam Soil</option>
+                        <option value="clayey">Clayey Soil</option>
+                        <option value="laterite">Laterite Soil</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="season">
+                        <span class="english-text">Current Season:</span>
+                        <span class="kannada-text">ಪ್ರಸ್ತುತ ಋತು:</span>
+                    </label>
+                    <select id="season" required>
+                        <option value="" class="english-text">Select Season</option>
+                        <option value="" class="kannada-text">ಋತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ</option>
+                        <option value="summer">Summer (March-June)</option>
+                        <option value="monsoon">Monsoon/Kharif (July-October)</option>
+                        <option value="winter">Winter/Rabi (November-February)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="budget">
+                        <span class="english-text">Budget Consideration:</span>
+                        <span class="kannada-text">ಬಜೆಟ್ ಪರಿಗಣನೆ:</span>
+                    </label>
+                    <select id="budget" required>
+                        <option value="" class="english-text">Select Budget Range</option>
+                        <option value="" class="kannada-text">ಬಜೆಟ್ ವ್ಯಾಪ್ತಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</option>
+                        <option value="low">Low Investment</option>
+                        <option value="medium">Medium Investment</option>
+                        <option value="high">High Investment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="irrigation">
+                        <span class="english-text">Irrigation Availability:</span>
+                        <span class="kannada-text">ನೀರಾವರಿ ಲಭ್ಯತೆ:</span>
+                    </label>
+                    <select id="irrigation" required>
+                        <option value="" class="english-text">Select Irrigation Type</option>
+                        <option value="" class="kannada-text">ನೀರಾವರಿ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</option>
+                        <option value="rainfed">Rainfed (Dependent on rainfall)</option>
+                        <option value="partial">Partial Irrigation</option>
+                        <option value="full">Full Irrigation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="landSize">
+                        <span class="english-text">Land Size (in acres):</span>
+                        <span class="kannada-text">ಜಮೀನಿನ ಗಾತ್ರ (ಎಕರೆಗಳಲ್ಲಿ):</span>
+                    </label>
+                    <input type="number" id="landSize" min="0.1" step="0.1" required placeholder="Enter land size">
+                </div>
+                <button type="button" onclick="getCropRecommendations()">
+                    <span class="english-text">Get Crop Recommendations</span>
+                    <span class="kannada-text">ಬೆಳೆ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ</span>
+                </button>
+            </form>
+            <div class="crop-results" id="cropResults">
+                <h3>
+                    <span class="english-text">Recommended Crops Based on Your Inputs:</span>
+                    <span class="kannada-text">ನಿಮ್ಮ ಇನ್‌ಪುಟ್‌ಗಳ ಆಧಾರದ ಮೇಲೆ ಶಿಫಾರಸು ಮಾಡಲಾದ ಬೆಳೆಗಳು:</span>
+                </h3>
+                <div id="recommendedCrops"></div>
+            </div>
+        </div>
+        <div class="tools-container" id="toolsContainer">
+            <h2>
+                <span class="english-text">Required Tools, Seeds & Supplies</span>
+                <span class="kannada-text">ಅಗತ್ಯವಿರುವ ಉಪಕರಣಗಳು, ಬೀಜಗಳು ಮತ್ತು ಸಾಮಗ್ರಿಗಳು</span>
+            </h2>
+            <p>
+                <span class="english-text">Below are the essential items you need for cultivating </span>
+                <span class="kannada-text">ಕೆಳಗೆ ನಿಮಗೆ ಬೇಕಾಗಿರುವ ಅತ್ಯಾವಶ್ಯಕ ವಸ್ತುಗಳು </span>
+                <span id="selectedCrop"></span>:
+            </p>
+            <div class="tools-grid" id="toolsGrid"></div>
+        </div>
+    </div>
+    <footer>
+        <span class="english-text">© 2025 KrushiSathi. All rights reserved.</span>
+        <span class="kannada-text">© 2025 ಕೃಷಿಸಾಥಿ. ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.</span>
+    </footer>
+    <script>
+        // Crop and tools data with images
+        const cropData = [
+            {
+                name: "Rice",
+                image: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Rice_Plants_%28IRRI%29.jpg",
+                soil: ["alluvial", "clayey", "loam"],
+                season: ["monsoon"],
+                irrigation: ["full", "partial"],
+                budget: ["medium", "high"],
+                description: "Rice is a staple crop requiring good water availability.",
+                tools: [
+                    { name: "Rice Seeds", image: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Rice_Sample.jpg", price: "₹2000/50kg" },
+                    { name: "Tractor", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", price: "₹500/hr (rent)" },
+                    { name: "Plough", image: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Plough.jpg", price: "₹1500" },
+                    { name: "Irrigation Pump", image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Water_pump.jpg", price: "₹8000" }
+                ]
+            },
+            {
+                name: "Wheat",
+                image: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Wheat_close-up.JPG",
+                soil: ["alluvial", "loam", "black"],
+                season: ["winter"],
+                irrigation: ["partial", "full"],
+                budget: ["medium", "high"],
+                description: "Wheat grows best in cool, dry climates with moderate irrigation.",
+                tools: [
+                    { name: "Wheat Seeds", image: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Wheat_seeds.jpg", price: "₹1800/50kg" },
+                    { name: "Seed Drill", image: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Seed_drill.jpg", price: "₹4000" },
+                    { name: "Tractor", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", price: "₹500/hr (rent)" },
+                    { name: "Fertilizer", image: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Fertilizer.jpg", price: "₹1200/50kg" }
+                ]
+            },
+            {
+                name: "Groundnut",
+                image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Arachis_hypogaea_-_Köhler–s_Medizinal-Pflanzen-019.jpg",
+                soil: ["sandy", "red", "loam"],
+                season: ["summer", "monsoon"],
+                irrigation: ["rainfed", "partial"],
+                budget: ["low", "medium"],
+                description: "Groundnut is a legume crop suitable for sandy and loamy soils.",
+                tools: [
+                    { name: "Groundnut Seeds", image: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Peanuts_in_shell.jpg", price: "₹1600/50kg" },
+                    { name: "Hoe", image: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Hoe_%28PSF%29.png", price: "₹500" },
+                    { name: "Sprayer", image: "https://upload.wikimedia.org/wikipedia/commons/8/8d/Knapsack_sprayer.jpg", price: "₹1200" }
+                ]
+            },
+            {
+                name: "Sugarcane",
+                image: "https://upload.wikimedia.org/wikipedia/commons/6/6c/Sugar_cane_plants.jpg",
+                soil: ["black", "alluvial", "loam"],
+                season: ["monsoon"],
+                irrigation: ["full"],
+                budget: ["high"],
+                description: "Sugarcane is a long-duration crop needing rich soils and plenty of water.",
+                tools: [
+                    { name: "Sugarcane Setts", image: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Sugarcane_cuttings.jpg", price: "₹3000/1000 setts" },
+                    { name: "Tractor", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", price: "₹500/hr (rent)" },
+                    { name: "Irrigation Pump", image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Water_pump.jpg", price: "₹8000" },
+                    { name: "Fertilizer", image: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Fertilizer.jpg", price: "₹1500/50kg" }
+                ]
+            },
+            {
+                name: "Millet",
+                image: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Millet_crop.jpg",
+                soil: ["red", "sandy", "laterite"],
+                season: ["summer", "monsoon"],
+                irrigation: ["rainfed", "partial"],
+                budget: ["low"],
+                description: "Millets are hardy crops suitable for low rainfall and poor soils.",
+                tools: [
+                    { name: "Millet Seeds", image: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Millet_grains.jpg", price: "₹1200/50kg" },
+                    { name: "Hoe", image: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Hoe_%28PSF%29.png", price: "₹500" },
+                    { name: "Sickle", image: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Sickle.jpg", price: "₹300" }
+                ]
+            }
+        ];
+
+        let selectedCrops = [];
+        let selectedCropName = "";
+
+        function getCropRecommendations() {
+            // Get form values
+            const soilType = document.getElementById('soilType').value;
+            const season = document.getElementById('season').value;
+            const budget = document.getElementById('budget').value;
+            const irrigation = document.getElementById('irrigation').value;
+            const landSize = document.getElementById('landSize').value;
+
+            // Validate form
+            if (!soilType || !season || !budget || !irrigation || !landSize) {
+                if (document.body.classList.contains('kannada')) {
+                    alert("ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ");
+                } else {
+                    alert("Please fill all the fields to get recommendations");
+                }
+                return;
+            }
+
+            // Find matching crops
+            selectedCrops = cropData.filter(crop =>
+                crop.soil.includes(soilType) &&
+                crop.season.includes(season) &&
+                crop.budget.includes(budget) &&
+                crop.irrigation.includes(irrigation)
+            );
+
+            // Show results
+            const resultsDiv = document.getElementById('recommendedCrops');
+            resultsDiv.innerHTML = "";
+
+            if (selectedCrops.length === 0) {
+                resultsDiv.innerHTML = "<div>No crops found for your selection. Try changing some options.</div>";
+                selectedCropName = "";
+            } else {
+                selectedCrops.forEach((crop, idx) => {
+                    resultsDiv.innerHTML += `
+                        <div class="crop-card">
+                            <img class="crop-image" src="${crop.image}" alt="${crop.name}">
+                            <div class="crop-info">
+                                <div class="crop-name">${crop.name}</div>
+                                <div>${crop.description}</div>
+                                <button type="button" onclick="showToolsPage(${idx})">View Tools & Seeds</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                selectedCropName = selectedCrops[0].name;
+            }
+
+            document.getElementById('cropResults').style.display = 'block';
+            document.getElementById('toolsContainer').style.display = 'none';
+        }
+
+        function showToolsPage(idx = 0) {
+            if (selectedCrops.length === 0) return;
+            const crop = selectedCrops[idx] || selectedCrops[0];
+            document.getElementById('selectedCrop').textContent = crop.name;
+            const toolsGrid = document.getElementById('toolsGrid');
+            toolsGrid.innerHTML = crop.tools.map(tool => `
+                <div class="tool-card">
+                    <img class="tool-image" src="${tool.image}" alt="${tool.name}">
+                    <div class="tool-content">
+                        <div class="tool-name">${tool.name}</div>
+                        <div class="tool-price">${tool.price}</div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('toolsContainer').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('toolsContainer').offsetTop, behavior: 'smooth' });
+        }
+
+        function toggleLanguage() {
+            document.body.classList.toggle('kannada');
+        }
+    </script>
+</body>
+</html>
